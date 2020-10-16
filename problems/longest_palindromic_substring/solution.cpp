@@ -1,32 +1,48 @@
 class Solution {
-public:
-    string longestPalindrome(string s) {
-        int n = s.size();
-        vector<vector<int>> dp(n, vector<int>(n));
-        int maxlen = 1;
-        int start = {};
+private:
 
-    for(int i = 0; i < s.length(); ++i){
-        dp[i][i] = 1;
+    string centerSpread(string s, int left, int right) {
+        // left = right 的时候，此时回文中心是一个空隙，向两边扩散得到的回文子串的长度是奇数
+        // right = left + 1 的时候，此时回文中心是一个字符，向两边扩散得到的回文子串的长度是偶数
+        int size = s.size();
+        int i = left;
+        int j = right;
+        while (i >= 0 && j < size) {
+            if (s[i] == s[j]) {
+                i--;
+                j++;
+            } else {
+                break;
+            }
+        }
+        // 这里要小心，跳出 while 循环时，恰好满足 s.charAt(i) != s.charAt(j)，因此不能取 i，不能取 j
+        return s.substr(i + 1, j - i - 1);
     }
-    for(int i = 1; i < s.length(); ++i){
-        for(int j = 0; j < i; ++j){
-            if(s[i] == s[j]){
-                if(i-j<3)
-                    dp[j][i] = 1;
-                else 
-                    dp[j][i] = dp[j+1][i-1];
+
+public:
+
+
+    string longestPalindrome(string s) {
+        // 特判
+        int size = s.size();
+        if (size < 2) {
+            return s;
+        }
+
+        int maxLen = 1;
+        string res = s.substr(0, 1);
+
+        // 中心位置枚举到 len - 2 即可
+        for (int i = 0; i < size - 1; i++) {
+            string oddStr = centerSpread(s, i, i);
+            string evenStr = centerSpread(s, i, i + 1);
+            string maxLenStr = oddStr.size() > evenStr.size() ? oddStr : evenStr;
+            if (maxLenStr.length() > maxLen) {
+                maxLen = maxLenStr.size();
+                res = maxLenStr;
             }
-            else{
-                dp[j][i] = 0; 
-            }
-            if(dp[j][i] && i-j+1 > maxlen){
-                start = j ;
-                maxlen = i-j+1;
-            }
-        } 
-    }
-    return s.substr(start,maxlen);
+        }
+        return res;
     }
 };
 
