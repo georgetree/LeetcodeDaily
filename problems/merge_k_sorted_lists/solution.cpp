@@ -10,31 +10,26 @@
  */
 class Solution {
 public:
+    struct cmp {
+        bool operator()(const ListNode *a, const ListNode *b) {
+            return a->val > b->val;
+        }  
+    };
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.size()<1)
-            return 0;
-        ListNode *result = lists[0]; // return linked list
-        for(int i=1; i<lists.size(); i++){
-                result = mergetwoLists(result,lists[i]);    
+        priority_queue<ListNode*,vector<ListNode*>,cmp> pq;
+        for(ListNode *head: lists) {
+            if(head) {
+                pq.push(head);
             }
+        }
+        ListNode *result = nullptr;
+        ListNode **p = &result;
+        while(!pq.empty()){
+            *p = pq.top();
+            pq.pop();
+            if((*p)->next) pq.push((*p)->next);
+            p = &(*p)->next;
+        }
         return result;
-        }
-    
-    ListNode* mergetwoLists(ListNode *a, ListNode *b) {
-        ListNode* head = new ListNode(-1);
-        ListNode* cur = head;
-        while(a && b){
-            if(a->val > b->val){
-                cur->next = b;
-                b = b->next;
-            }else{
-                cur->next = a;
-                a = a->next;
-            }
-            cur = cur->next;
-        }
-        cur->next = a == nullptr ? b : a;
-        return head->next;
     }
 };
- 
