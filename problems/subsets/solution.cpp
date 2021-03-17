@@ -1,16 +1,18 @@
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        int subsetlen = 1 << nums.size();
-        vector<vector<int>> outPut;
-        for(int i=0; i<subsetlen; ++i){
-            vector<int> temp ;
-            for(int j=0; j<nums.size(); ++j){
-                if(((i>>j)&1) == 1)
-                    temp.push_back(nums[j]);
-            }
-            outPut.push_back(temp);
+        vector<vector<int>> result;
+        vector<int> sub;
+        dfs(result,nums,sub,0);
+        return result;
+    }
+    
+    void dfs(vector<vector<int>> &result, vector<int>& nums,vector<int>& sub,int start){
+        result.push_back(sub);
+        for(int i=start; i<nums.size(); i++){
+            sub.push_back(nums[i]);
+            dfs(result,nums,sub,i+1);
+            sub.pop_back();
         }
-        return outPut;
     }
 };
