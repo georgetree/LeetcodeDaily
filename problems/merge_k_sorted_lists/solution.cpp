@@ -15,21 +15,22 @@ public:
             return a->val > b->val;
         }  
     };
+
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         priority_queue<ListNode*,vector<ListNode*>,cmp> pq;
-        for(ListNode *head: lists) {
-            if(head) {
-                pq.push(head);
-            }
+        for(auto l: lists){
+            if(l) pq.push(l);
         }
-        ListNode *result = nullptr;
-        ListNode **p = &result;
+        
+        ListNode *res = nullptr;
+        ListNode **p = &res;
+        
         while(!pq.empty()){
-            *p = pq.top();
+            *p = pq.top(); 
             pq.pop();
             if((*p)->next) pq.push((*p)->next);
             p = &(*p)->next;
         }
-        return result;
+        return res;
     }
 };
