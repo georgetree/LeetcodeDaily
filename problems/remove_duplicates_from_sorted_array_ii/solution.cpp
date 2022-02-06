@@ -1,11 +1,11 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        int c = 0;
-        for (int e : nums){
-            if(c < 2 || e>nums[c-2])
-                nums[c++] = e;
+        int res = 0;
+        for(auto i: nums){
+            if(res < 2 || i > nums[res-2])
+                nums[res++] = i;
         }
-        return c;
+        return res;
     }
 };
