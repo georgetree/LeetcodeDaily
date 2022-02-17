@@ -1,25 +1,22 @@
 class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-    
-        vector<vector<int>> result;
-        vector<int> combin;
-        cal(result,candidates,combin,0,target);
-        return result;
+        vector<vector<int>> res;
+        vector<int> tmp;
+        dfs(candidates,target,tmp,res,0);
+        return res;
     }
     
-   
-    void cal(vector<vector<int>> &result,vector<int>&candidates, vector<int> &combin, int start,int target){
+    void dfs(vector<int>& candidates, int target, vector<int> &tmp, vector<vector<int>> &res, int start){
         if(target<=0){
             if(target==0)
-                result.push_back(combin);
+                res.push_back(tmp);
             return;
-        } 
-  
+        }
         for(int i=start; i<candidates.size(); i++){
-            combin.push_back(candidates[i]);
-            cal(result,candidates,combin,i,target-candidates[i]);
-            combin.pop_back();        
+            tmp.push_back(candidates[i]);
+            dfs(candidates,target-candidates[i],tmp,res,i);
+            tmp.pop_back();
         }
     }
 };
