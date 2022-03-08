@@ -12,14 +12,12 @@ public:
         if(!head||!head->next){
             return false;
         }
-        ListNode *temp = head, *temp2 = head->next->next;
-        while(temp!=NULL && temp2!=NULL){
-            if(temp2==temp)
-                return true;
-            temp = temp->next;
-            if(temp2->next==NULL)
-                return false;
-            temp2 = temp2->next->next;
+        ListNode *f = head;
+        ListNode *s = head;
+        while(f->next && f->next->next){
+            f = f->next->next;
+            s = s->next;
+            if(s == f) return true;
         }
         return false;
     }
