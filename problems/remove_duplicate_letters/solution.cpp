@@ -2,16 +2,15 @@ class Solution {
 public:
     string removeDuplicateLetters(string s) {
         unordered_map<char,int> m;
-        string res = "";
+        stack<char> st;
+        string res="";
+        for(auto i:s)
+            m[i]++;
         for(auto i:s){
-            m[i]+=1;
-        }
-        for(auto i:s){
-            m[i]-=1;
-            if(res.find(i) != string::npos) continue;
-            while(m[res.back()] > 0 && !res.empty() && res.back() > i ){
+            m[i]--;
+            if(res.find(i) != string::npos ) continue; //res裡已經有了，不需要再加入
+            while( m[res.back()]>0 && res!="" && res.back() > i)
                 res.pop_back();
-            }
             res.push_back(i);
         }
         return res;
