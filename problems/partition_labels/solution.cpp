@@ -1,21 +1,23 @@
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        unordered_map<char,int> umap;
-        for(int i=0; i < s.size(); i++) 
-            umap[s[i]] = i;
+        unordered_map<char,int> m;
+        vector<int> res;
+        
+        for(int i=0; i<s.size();i++)
+            m[s[i]]= i;
+        int current = m[s[0]];
         int count = 1;
-        int curr = umap[s[0]];
-        vector<int> result;
-        for(int j=0; j < s.size(); j++){
-            curr = max(umap[s[j]],curr);
-            if(curr == j){
-                result.push_back(count);
+        for(int j=0; j<s.size();j++){
+            current = max(current, m[s[j]]);
+            if(current == j){
+                res.push_back(count);
                 count = 1;
-            }           
-            else
-                count ++;
+            }
+            else{
+                count++;
+            }
         }
-        return result;
+        return res;
     }
 };
