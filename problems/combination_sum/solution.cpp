@@ -2,21 +2,21 @@ class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> res;
-        vector<int> tmp;
-        dfs(candidates,target,tmp,res,0);
+        vector<int> combin;
+        helper(candidates, target, combin, res,0);
         return res;
     }
     
-    void dfs(vector<int>& candidates, int target, vector<int> &tmp, vector<vector<int>> &res, int start){
-        if(target<=0){
-            if(target==0)
-                res.push_back(tmp);
+    void helper(vector<int>& candidates, int t, vector<int>& combin, vector<vector<int>>& res, int s){
+        if(t==0){
+            res.push_back(combin);
             return;
-        }
-        for(int i=start; i<candidates.size(); i++){
-            tmp.push_back(candidates[i]);
-            dfs(candidates,target-candidates[i],tmp,res,i);
-            tmp.pop_back();
+        }else if(t<0)
+            return;
+        for(int i=s; i<candidates.size(); i++){
+            combin.push_back(candidates[i]);
+            helper(candidates, t-candidates[i], combin, res, i);
+            combin.pop_back();
         }
     }
 };
