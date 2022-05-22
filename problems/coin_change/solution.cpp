@@ -2,23 +2,31 @@ class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
         if(amount==0) return 0;
-        sort(coins.rbegin(),coins.rend());
-        int ans = INT_MAX;
-        coinCh(coins,amount,ans,0,0);
-        return ans == INT_MAX ? -1 : ans ;
-    }
-    
-    
-    void coinCh(vector<int>& coins, int amount, int& ans, int coin_index, int count){
-        if(amount==0){
-            ans = min(ans,count);
-            return ;
+        int res = 0;
+        queue<int> q;
+        q.push(amount);
+        sort(coins.begin(),coins.end());
+        vector<int> v(amount+1,0);
+        v[amount] = true;
+        while(!q.empty()){
+            res++;
+            for(int i = q.size(); i>0; i--){
+                int h = q.front();
+                q.pop();
+                for(auto coin:coins){
+                    int n = h - coin;
+                    if(n==0)
+                        return res;
+                    else if(n<0)
+                        break;
+                    else if(!v[n]){
+                        v[n] = true;
+                        q.push(n);
+                    }
+                }
+            }
+            
         }
-        if(coin_index == coins.size()) return ;
-        for(int i = amount/coins[coin_index]; i>=0 && i+count <= ans; --i){
-            coinCh(coins, amount-(i*coins[coin_index]), ans, coin_index+1, count+i);
-        }
+        return -1;
     }
 };
-
-     
