@@ -1,14 +1,14 @@
 class Solution {
 public:
     int totalNQueens(int n) {
-        vector<vector<string>> res;
+        int res = 0;
         vector<string> board(n,string(n,'.'));
         solve(board,res,0,n);
-        return res.size();
+        return res;
     }
-    void solve(vector<string> &board,vector<vector<string>> &res,int row, int n){
+    void solve(vector<string> &board,int &res,int row, int n){
         if(row == n){
-            res.push_back(board);
+            res++;
             return;
         }
         for (int col = 0; col < n; col++) {
