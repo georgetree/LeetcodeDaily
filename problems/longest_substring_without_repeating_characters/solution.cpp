@@ -1,17 +1,17 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-    int maxsize = 0;
-    vector<char> temp;
-    vector<char>::const_iterator it;
-
-    for(int i=0;i<s.length();i++){
-        if( find(temp.begin(), temp.end(), s[i]) != temp.end()){
-          temp.erase(temp.begin(),next(find(temp.begin(), temp.end(), s[i]))); 
+        int res = 0;
+        unordered_set<char>st;
+        int n = s.size();
+        for(int i=0, j=0;  i<n && j<n; ){
+            if(st.find(s[i]) == st.end()){
+                st.emplace(s[i++]);
+                res = max(res, i-j);
+            }
+            else
+                st.erase(s[j++]);
         }
-        temp.push_back(s[i]) ;
-        maxsize = max(maxsize,(int)temp.size());
-    }
-        return maxsize;
+        return res;
     }
 };
