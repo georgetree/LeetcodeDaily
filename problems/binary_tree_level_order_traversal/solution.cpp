@@ -13,17 +13,15 @@ class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> res;
-        TreeNode *n = root;
-        int level = 0;
-        levelorder(res,level,n);
+        helper(root,0,res);
         return res;
     }
-    void levelorder(vector<vector<int>> &res,int level, TreeNode *n){
-        if(!n) return;
-        if(res.size()==level) res.push_back({}); //新增二維vector層數 
-        res[level].push_back(n->val);
-        if(n->left) levelorder(res, level+1, n->left);
-        if(n->right) levelorder(res, level+1, n->right);
-
+    void helper(TreeNode* root, int level, vector<vector<int>> &res){
+        if(!root) return;
+        if(level == res.size()) res.push_back({});
+        res[level].push_back(root->val);
+        if(root->left) helper(root->left,level+1,res);
+        if(root->right) helper(root->right,level+1,res);
+        
     }
 };
