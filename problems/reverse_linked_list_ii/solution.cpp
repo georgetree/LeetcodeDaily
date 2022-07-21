@@ -11,17 +11,18 @@
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode *dummy = new ListNode(-1), *pre = dummy;
-        dummy->next = head;
-        for(int i=1; i<left; i++)
-            pre = pre->next;
-        ListNode *cur = pre->next;
-        for(int i=left; i<right; i++){
-            ListNode *temp = cur->next;
-            cur->next = temp->next;
-            temp->next = pre->next;
-            pre->next = temp;
+        ListNode **p = &head;
+        for(int i=0; i<left-1; i++){
+            p = &(*p)->next;
         }
-        return dummy->next;
+        ListNode  * const q = *p;
+        for(int i=left; i<right; i++){
+            ListNode * const temp = *p;
+            *p = q->next;
+            q->next = q->next->next;
+            (*p)->next = temp;
+        }
+        return head;
+        
     }
 };
