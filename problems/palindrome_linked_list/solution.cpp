@@ -10,39 +10,26 @@
  */
 class Solution {
 public:
-    ListNode *reverse (ListNode* newHead) {
-        ListNode *prev=NULL, *nextNode, *curr=newHead;
-        
-        while (curr!=NULL) {
-            nextNode=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=nextNode;
-        }
-        return prev;
-    }
     bool isPalindrome(ListNode* head) {
-        if (head==NULL || head->next==NULL)
-            return true;
-        ListNode *slow=head,*fast=head->next;
-        
-        while (fast!=NULL && fast->next!=NULL) {
-            slow=slow->next;
-            fast=fast->next->next;
+        ListNode *t1 = head, *t2 = head;
+        //取中間的node 
+        while(t2 && t2->next){
+            t1 = t1->next;
+            t2 = t2->next->next;
         }
-        
-        //ListNode *temp=slow->next;
-        
-        ListNode* newHead=reverse(slow->next);
-        slow->next=NULL;
-        
-        while (newHead!=NULL && head!=NULL) {
-        // cout<<"newHead "<<newHead->val<<endl;
-        // cout<<"original head "<<head->val<<endl;
-            if (newHead->val!=head->val)
-                return false;
-            newHead=newHead->next;
-            head=head->next;
+        ListNode *r = nullptr;
+        while(t1){
+            ListNode *temp = t1->next;
+            t1->next = r;
+            r = t1;
+            t1 = temp;
+        }
+        while(r && head){
+            if(r->val == head->val){
+                r = r->next;
+                head = head->next;
+            }
+            else return false;
         }
         return true;
     }
