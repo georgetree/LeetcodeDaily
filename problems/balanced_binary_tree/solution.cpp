@@ -12,8 +12,8 @@
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
-        if(check(root)==-1) return false;
-        else return true;
+        return check(root) == -1 ? false : true;
+         
     }  
     int check(TreeNode *root){
         if(!root) return 0;
