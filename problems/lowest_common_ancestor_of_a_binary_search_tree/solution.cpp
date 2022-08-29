@@ -13,9 +13,9 @@ public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         while(1){
             if(root->val > max(p->val,q->val))
-                root = root->left;
-            else if(root->val < min(p->val, q->val))
-                root = root->right;
+                root=root->left;
+            else if(root->val < min(p->val,q->val))
+                root=root->right;
             else break;
         }
         return root;
