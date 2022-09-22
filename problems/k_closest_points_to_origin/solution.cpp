@@ -1,28 +1,21 @@
 class Solution {
 public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        vector<vector<int>> res;
-        typedef pair<int,vector<int>> tp;
-        struct Order
-        {
-            bool operator()(tp const& a, tp const& b) const
-            {
-                return a.first > b.first;
-            }
+        auto cmp = [](vector<int> &a,vector<int> &b){
+            return pow(a[0],2)+pow(a[1],2) > pow(b[0],2)+pow(b[1],2);
         };
-
-        priority_queue<tp> min_heap;
-
-        for(auto i: points){
-            int t = 0;
-            t = pow(i[0],2) + pow(i[1],2);
-            min_heap.push(make_pair(t,i));
-            if(min_heap.size()>k) min_heap.pop();
+            
+        priority_queue<vector<int>,vector<vector<int>>,decltype(cmp)> q(cmp);
+        for(auto &point:points){
+            q.push(point);
         }
+        vector<vector<int>> res;
         for(int i=0; i<k; i++){
-            auto t = min_heap.top().second; min_heap.pop();
-            res.push_back(t);
+            cout << q.top()[0] << " ";
+            res.push_back(q.top());
+            q.pop();
         }
+            
         return res;
     }
 };
