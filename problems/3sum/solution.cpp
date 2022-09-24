@@ -1,25 +1,26 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        if(nums.size()<3 || nums.front() > 0 || nums.back() < 0) return{};
         vector<vector<int>> res;
-
-        for(int k=0; k<nums.size()-2; k++){
-            if(k > 0 && nums[k]==nums[k-1]) continue; 
-            int i = k+1, j = nums.size()-1;
-            while(i<j){
-                if((nums[i]+nums[j]+nums[k]) == 0){
-                    vector<int> t{nums[k],nums[i],nums[j]};
+        int len = nums.size();
+        sort(nums.begin(), nums.end());
+        for(int i=0; i<len; i++){
+            if(nums[i]>0) return res;
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            int l = i+1, r = len-1;
+            while(l<r){
+                if((nums[i]+nums[l]+nums[r])==0){
+                    vector<int> t{nums[i],nums[l],nums[r]};
                     res.push_back(t);
-                    while(i<j && nums[i]==nums[i+1]) ++i;
-                    while(i<j &&nums[j]==nums[j-1]) --j;
-                    ++i,--j;
+                    while(l<r && nums[l]==nums[l+1]) ++l;
+                    while(l<r && nums[r]==nums[r-1]) --r;
+                    ++l;
+                    --r;
                 }
-                else if(nums[i]+nums[j]+nums[k]>0) j--;
-                else i++;
+                else if((nums[i]+nums[l]+nums[r])>0) --r;
+                else ++l;
             }
         }
         return res;
-        }
+    }
 };
