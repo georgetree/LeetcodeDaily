@@ -12,21 +12,22 @@
 class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        if(root==nullptr) return {};
         vector<vector<int>> res;
-        vector<int> node;
-        hasPathSum(root, targetSum, res, node);
+        vector<int> path;
+        helper(root,targetSum,path,res);
         return res;
-        
     }
-    void hasPathSum(TreeNode* root, int targetSum, vector<vector<int>> &res, vector<int> &node){
-        if(!root) return;
-        node.push_back(root->val);
-        if(!root->left && !root->right && targetSum==root->val){
-            res.push_back(node);
-        } 
-        if(root->left) hasPathSum(root->left,targetSum-(root->val), res, node); 
-        if(root->right) hasPathSum(root->right,targetSum-(root->val), res, node);
-        node.pop_back();
+    void helper(TreeNode *root, int target,vector<int> &path, vector<vector<int>> &res){
+        if(root==nullptr) return;
+        path.push_back(root->val);
+        if(root->val==target && root->left==nullptr && root->right==nullptr) {
+            res.push_back(path);
+        }
+        
+        helper(root->left,target-root->val,path,res);
+        helper(root->right,target-root->val,path,res);
+        path.pop_back();
 
     }
 };
