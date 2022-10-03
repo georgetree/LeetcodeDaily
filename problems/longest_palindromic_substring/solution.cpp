@@ -1,18 +1,28 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int cur = 0, n = s.size(), l = 0, r = 0, curL = 0, curR = 0;
-        while(cur<n){
-            l = cur;
-            r = cur;
-            for(;r < n-1 && s[r] == s[r+1]; r++);
-            cur = r+1;
-            for(;l>0 && r < n-1 && s[l-1] == s[r+1];l--,r++);
-            if(r-l > curR-curL){
-                curR = r;
-                curL = l;
+        int m = s.size();
+        vector<vector<int>> dp(m,vector<int>(m));
+        int start = 0;
+        int curlen = 1;
+        for(int i=1; i<m; i++){
+            dp[i][i] = 1;
+            for(int j=0; j<=i; j++){
+                if(s[i]==s[j]){
+                    if(i-j < 3) dp[i][j] = 1;
+                    else{
+                        dp[i][j] = dp[i-1][j+1];
+                    }
+                }
+                else{
+                    dp[i][j] = 0;
+                }
+                if(dp[i][j] && (i-j+1) > curlen ){
+                    start = j;
+                    curlen = i-j+1;
+                }
             }
         }
-        return s.substr(curL,curR-curL+1);
+        return s.substr(start,curlen);
     }
 };
