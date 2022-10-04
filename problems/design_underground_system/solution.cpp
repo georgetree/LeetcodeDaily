@@ -1,24 +1,25 @@
 class UndergroundSystem {
 public:
-    unordered_map<int,pair<string,int>>m1;
-    unordered_map<string,pair<double,int>>m2;
-    
-    UndergroundSystem() {}
+    unordered_map<int,pair<int,string>> n;
+    unordered_map<string,pair<int,double>>m;
+
+    UndergroundSystem() {
+        
+    }
     
     void checkIn(int id, string stationName, int t) {
-        m1[id] = make_pair(stationName,t);
+        n[id] = make_pair(t,stationName);
     }
     
     void checkOut(int id, string stationName, int t) {
-        stationName = m1[id].first+ "_" +stationName;
-        m2[stationName].first += t - m1[id].second;
-        m2[stationName].second += 1;
+        string temp = stationName+"_"+n[id].second;
+        m[temp].first += 1;
+        m[temp].second += t-n[id].first;
     }
     
     double getAverageTime(string startStation, string endStation) {
-        string t = startStation + "_" + endStation;
-        double res = m2[t].first / m2[t].second;
-        return res;
+        string t = endStation + "_" + startStation;
+        return m[t].second / m[t].first;
     }
 };
 
