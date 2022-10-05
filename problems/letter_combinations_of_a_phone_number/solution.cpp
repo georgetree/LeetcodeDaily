@@ -2,18 +2,17 @@ class Solution {
 public:
     vector<string> letterCombinations(string digits) {
         vector<string> res{""};
-        vector<string> nums = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        if(digits.empty()) return {};
-        for(int i=0; i<digits.size(); i++){
-            vector<string> temp;
-            for(auto j: res){
-                for(auto c: nums[digits[i]-'0']){
-                    temp.push_back(j+c);
+        if(digits=="") return {};
+        vector<string> m = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        for(int i=0; i<digits.size();i++){
+            vector<string> t;
+            for(auto j:res){
+                for(auto d:m[digits[i]-'0']){
+                    t.push_back(j+d);
                 }
             }
-            res = move(temp);
+            res = t;
         }
         return res;
-        
     }
 };
