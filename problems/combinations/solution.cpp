@@ -1,20 +1,21 @@
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> result;
-        vector<int> com;
-        dfs(result,com,n,k,1);
-        return result;
+        vector<int> temp;
+        vector<vector<int>> res;
+        helper(n,k,temp,res,1);
+        return res;
     }
-    void dfs(vector<vector<int>> &result, vector<int> &com,  int n, int k, int start){
-        if(com.size()==k){ 
-            result.push_back(com);
+    
+    void helper(int n, int k, vector<int> &temp , vector<vector<int>> &res, int s){
+        if(temp.size()==k){
+            res.push_back(temp);
             return;
         }
-        for(int i=start; i <= n; i++){
-            com.push_back(i);
-            dfs(result,com,n,k,i+1);
-            com.pop_back();
+        for(int i=s; i<=n; i++){
+            temp.push_back(i);
+            helper(n,k,temp,res,i+1);
+            temp.pop_back();
         }
     }
 };
