@@ -1,27 +1,27 @@
 class Solution {
 public:
-    struct cmp {
-        bool operator()(pair<string,int> &a,pair<string, int>& b) {
-            if(a.second != b.second)
-                return a.second < b.second;
-            return a.first > b.first;
-        } 
-    };
-
     vector<string> topKFrequent(vector<string>& words, int k) {
-        unordered_map<string,int> countmap;
-        for(int i=0; i<words.size(); i++){
-            countmap[words[i]]++ ;
+        unordered_map<string,int> m;
+        for(auto &w:words){
+            m[w]++;
         }
-        priority_queue<pair<string,int>, vector<pair<string,int>>, cmp> maxHeap;
-        for(const auto &v:countmap){
-            maxHeap.push(v);
+        vector<string> res;
+        auto cmp = [](const pair<string,int> &p1, const pair<string,int> &p2) {
+            if(p1.second == p2.second)
+                return p1.first > p2.first;
+            return p1.second < p2.second;
+        };
+
+        priority_queue<pair<string,int>,vector<pair<string,int> >,decltype(cmp)> q(cmp);
+        
+        for(auto [k,v]: m){
+              q.push({k,v});  
         }
-        vector<string> result;
         for(int i=0; i<k; i++){
-            result.push_back(maxHeap.top().first);
-            maxHeap.pop();
+            res.push_back(q.top().first);
+            q.pop();
         }
-        return result;
+            
+        return res;
     }
 };
