@@ -11,31 +11,29 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode *temp = head;
-        for(int i=1; i<k && temp!=NULL; i++){
-                temp = temp->next;
+        ListNode *dummy = new ListNode(-1), *pre = dummy, *cur = head;
+        dummy->next = head;
+        int count = 1;
+        while (cur!=nullptr) {
+            if (count % k == 0) {
+                pre = helper(pre,cur->next);
+                cout << pre->val;
+                cur = pre->next;
             }
-        if(temp==NULL)
-            return head;
-        ListNode *tempNode = temp->next;
-        temp->next = NULL;
-        
-        ListNode *newlist = reverseList(head);
-        ListNode *newhead = reverseKGroup(tempNode,k);
-        head->next = newhead;
-        return newlist;
-    }
- 
-    ListNode* reverseList(ListNode* head) {
-        ListNode *cur = nullptr;
-        while(head){
-            ListNode *ne = head->next;
-            head->next = cur;
-            cur = head;
-            head = ne;
+            else cur = cur->next;
+            ++count;
         }
-        return cur;
+        return dummy->next;
     }
-
-
+    ListNode* helper(ListNode *h, ListNode *tail){
+        ListNode *p = h->next;
+        ListNode *cur = p->next;
+        while (cur != tail) {
+            p->next = cur->next;
+            cur->next = h->next;
+            h->next = cur;
+            cur = p->next;
+        }
+        return p;
+    }
 };
