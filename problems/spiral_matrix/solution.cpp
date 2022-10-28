@@ -1,23 +1,28 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        vector<vector<int>> dir{{0,1},{1,0},{0,-1},{-1,0}};
-        vector<int> res;
+        if (matrix.empty() || matrix[0].empty()) return {};
+        
         int m = matrix.size(), n = matrix[0].size();
-        int x = 0, y = 0, s = 0;
-        for(int i=0; i<m*n; i++){
-            res.push_back(matrix[x][y]);
-            matrix[x][y] = 0;
-            int nx = x + dir[s][0];
-            int ny = y + dir[s][1];
-            if(nx<0 || nx>=m || ny<0 || ny>=n || matrix[nx][ny]==0){
-                s = (s+1)%4;
-                nx = x + dir[s][0];
-                ny = y + dir[s][1];
-            }
-            x = nx;
-            y = ny;
+
+        vector<int> res;
+        int right = n-1, up = 0, down = m-1, left = 0;
+     
+        while (1) {
+            for(int i=left; i<=right; i++) res.push_back(matrix[up][i]);
+            if(++up > down) break;
+            
+            for(int i=up; i<=down; i++) res.push_back(matrix[i][right]);
+            if(--right < left) break;
+         
+            for(int i=right; i>=left; i--) res.push_back(matrix[down][i]);
+            if(--down < up) break;
+            
+            for(int i=down; i>=up; i--) res.push_back(matrix[i][left]);
+            if(++left > right) break;
+
         }
+        
         return res;
     }
 };
