@@ -1,34 +1,31 @@
 class LRUCache {
 public:
-    int c;
-    unordered_map<int,list<pair<int,int>>::iterator> m;
-    list<pair<int,int>> l;
-    LRUCache(int capacity): c(capacity) {
-        
-    }
+    LRUCache(int capacity): capacity_(capacity) {}
     
     int get(int key) {
-        if(m.find(key)==m.end()) return -1;
-        auto it = m[key];
-        l.splice(l.begin(),l,it);
-        return it->second;
+      auto it = m_.find(key);
+      if (it == m_.end()) return -1;
+
+      l_.splice(l_.begin(), l_, it->second);
+      return it->second->second;
     }
     
     void put(int key, int value) {
-        auto it = m.find(key);
-        if (it != m.end()) l.erase(it->second);
-        l.push_front({key,value});
-        m[key] = l.begin();
-        if(l.size() > c){
-            m.erase(l.back().first);
-            l.pop_back();
-        }
-    }
-};
+      auto it = m_.find(key);
+      if (it != m_.end()) {
+        l_.erase(it->second);
+      }
+      l_.push_front(std::make_pair(key, value));
+      m_[key] = l_.begin();
 
-/**
- * Your LRUCache object will be instantiated and called as such:
- * LRUCache* obj = new LRUCache(capacity);
- * int param_1 = obj->get(key);
- * obj->put(key,value);
- */
+      if (m_.size() > capacity_) {
+        int lastItemKey = l_.rbegin()->first;
+        l_.pop_back();
+        m_.erase(lastItemKey);
+      }
+    }
+ private:
+  int capacity_;
+  std::list<std::pair<int, int>> l_;
+  std::unordered_map<int, std::list<std::pair<int, int>>::iterator> m_;
+};
