@@ -18,8 +18,8 @@ public:
         if(root==nullptr) return 0;
         int l = helper(root->left);
         int r = helper(root->right);
-        if(l==-1 || r==-1) return -1;
-        if(abs(l-r)>1) return -1;
+        if(l==-1 || r==-1 || abs(l-r)>1) return -1;
+  
         return 1+max(l,r);
     }
 };
