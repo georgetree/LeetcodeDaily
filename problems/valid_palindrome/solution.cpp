@@ -1,21 +1,25 @@
 class Solution {
+private:
+    bool isValid(char c){
+        return (c >= 'a' && c <= 'z') || (c>='A' && c<='Z') || (c>='0' && c<= '9');
+    }
 public:
     bool isPalindrome(string s) {
         int l = 0;
         int r = s.size()-1;
         while(l<=r){
-            if(!isalnum(s[l])){
-                l++ ;
+            if(!isValid(s[l])) {
+                l++;
                 continue;
-            } 
-            if(!isalnum(s[r])){
+            }
+            if(!isValid(s[r])){
                 r--;
                 continue;
             } 
-            if(tolower(s[l])==tolower(s[r])){
+            if(tolower(s[l]) == tolower(s[r])){
                 l++;
-                r--; 
-            } 
+                r--;
+            }
             else return false;
         }
         return true;
