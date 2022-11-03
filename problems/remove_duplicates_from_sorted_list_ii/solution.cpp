@@ -11,14 +11,16 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode *dummy = new ListNode(-1), *pre = dummy;
+        ListNode* dummy = new ListNode(-1);
+        ListNode *pre = dummy;
         dummy->next = head;
         while(pre->next){
-            ListNode *cur = pre->next;
-            while(cur->next && cur->val == cur->next->val){
-                cur = cur->next;
-            }
-            if(cur != pre->next) pre->next = cur->next;
+            ListNode *temp = pre->next;
+            while(temp->next && temp->val == temp->next->val)
+                temp = temp->next;
+            if(temp != pre->next) pre->next = temp->next; 
+                //表示指標移動過，代表有重複的，將pre下個節點指向temp下個
+                //temp只在下個不相等時while才跳開，所以temp的next一定不同
             else pre = pre->next;
         }
         return dummy->next;
