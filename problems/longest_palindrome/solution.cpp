@@ -1,13 +1,20 @@
 class Solution {
 public:
     int longestPalindrome(string s) {
-        vector<int>st(100,0);
-        for(char i:s)
-            st[i-'A']++;
-        int sumOdd = 0; 
-        for(int &i:st){
-            sumOdd += i&1;
+        unordered_map<char,int> m;
+        for(auto c:s){
+            m[c]++;
         }
-        return s.size() - sumOdd + (sumOdd>0);
+        bool f = 0;
+        int res = 0;
+        for(auto [k,v]: m){
+            res += v;
+            if(v & 1){
+                f = 1;
+                res--;
+            } 
+            
+        }
+        return f==1 ? res+1 : res;
     }
 };
