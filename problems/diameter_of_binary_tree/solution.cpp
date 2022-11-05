@@ -16,7 +16,7 @@ public:
         helper(root,h);
         return h;
     }
-    int helper(TreeNode *root,int &h){
+    int helper(TreeNode *root, int &h){
         if(root==nullptr) return 0;
         int l = helper(root->left,h);
         int r = helper(root->right,h);
